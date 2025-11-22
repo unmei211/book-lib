@@ -12,11 +12,8 @@
 - Maven
 - PostgreSQL 14
 
-### 1. Клонируйте репозиторий
-```bash
-git clone <ваш-репозиторий>
-cd <репозиторий>
-```
+### 1. Скачайте репозиторий с github
+https://github.com/unmei211/book-lib
 
 ### 2. Скомпилируйте
 ```bash
