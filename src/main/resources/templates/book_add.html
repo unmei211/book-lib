@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить книгу</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: inline-block; width: 180px; font-weight: bold; }
+        input[type="text"] { width: 300px; padding: 4px; }
+        .btn { margin-top: 1rem; padding: 6px 12px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .btn:hover { background: #0056b3; }
+        .back-link { display: inline-block; margin-top: 1rem; color: #007bff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<h1>Добавить книгу</h1>
+<div th:replace="~{fragments/menu :: mainMenu}"></div>
+
+<form th:object="${bookView}" th:action="@{/books}" method="post">
+    <div class="form-group">
+        <label for="bookName">Название книги:</label>
+        <input type="text" id="bookName" th:field="*{bookName}" required />
+    </div>
+
+    <div class="form-group">
+        <label for="isbnCode">ISBN:</label>
+        <input type="text" id="isbnCode" th:field="*{isbnCode}" required />
+    </div>
+
+    <h3>Автор</h3>
+    <div class="form-group">
+        <label for="authorFirstName">Имя:</label>
+        <input type="text" id="authorFirstName" th:field="*{authorFirstName}" required />
+    </div>
+
+    <div class="form-group">
+        <label for="authorMiddleName">Отчество:</label>
+        <input type="text" id="authorMiddleName" th:field="*{authorMiddleName}" />
+    </div>
+
+    <div class="form-group">
+        <label for="authorLastName">Фамилия:</label>
+        <input type="text" id="authorLastName" th:field="*{authorLastName}" required />
+    </div>
+
+    <button type="submit" class="btn">Сохранить книгу</button>
+</form>
+
+<a th:href="@{/books}" class="back-link"><- Назад к списку книг</a>
+</body>
+</html>

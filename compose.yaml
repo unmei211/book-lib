@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    shm_size: 128mb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  backend-service:
+    depends_on:
+      - postgres
+    build:
+      context: .
+    command: java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005 -jar app.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-fs", "http://127.0.0.1:8080/actuator/health" ]
+      start_period: 60s
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    environment:
+      # Application Setting
+      ENV: "${ENV}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      # Service Settings
+      POSTGRES_HOST: "${POSTGRES_HOST}"
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+volumes:
+  postgres_data:

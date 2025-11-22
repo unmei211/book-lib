@@ -1,0 +1,39 @@
+@startuml
+
+entity "Book" as b {
+    * id: String <<PK>>
+    * isbn_code: String <<PK>>
+    --
+    name: String
+    authorId: String <<FK>>
+}
+
+entity "Author" as a {
+    * id: String <<PK>>
+    --
+    firstName: String
+    middleName: String?
+    lastName: String
+}
+
+entity "Client" as c {
+    * id: String <<PK>>
+    --
+    firstName: String
+    middleName: String?
+    lastName: String
+    dateOfBirth: Date
+}
+
+entity "Booking" as bo {
+    * id: String <<PK>>
+    --
+    bookId: String
+    clientId: String
+}
+
+b ||--o{ bo : 1..N bookId
+c ||--o{ bo : 1..N clientId
+a ||--o{ b : 1..N authorId
+
+@enduml

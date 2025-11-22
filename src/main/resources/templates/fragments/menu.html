@@ -1,0 +1,28 @@
+<nav th:fragment="mainMenu" style="margin: 1rem 0; padding: 0.5rem; background: #f0f0f0; border-radius: 4px;">
+    <ul style="list-style: none; margin: 0; padding: 0; display: flex; gap: 1rem;">
+        <li>
+            <a href="/"
+               th:class="${#httpServletRequest.requestURI == '/'} ? 'active' : ''">
+                Главная
+            </a>
+        </li>
+        <li>
+            <a href="/books"
+               th:class="${#httpServletRequest.requestURI.startsWith('/books')} ? 'active' : ''">
+                Список книг
+            </a>
+        </li>
+        <li>
+            <a href="/clients"
+               th:class="${#httpServletRequest.requestURI.startsWith('/clients')} ? 'active' : ''">
+                Список клиентов
+            </a>
+        </li>
+        <li>
+            <a href="/bookings"
+               th:class="${#httpServletRequest.requestURI.startsWith('/bookings')} ? 'active' : ''">
+                Забронировать книгу
+            </a>
+        </li>
+    </ul>
+</nav>

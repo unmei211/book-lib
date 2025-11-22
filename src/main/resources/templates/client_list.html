@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список клиентов</title>
+</head>
+<body>
+<h1>Клиенты</h1>
+<div th:replace="~{fragments/menu :: mainMenu}"></div>
+
+<p>
+    <a th:href="@{/clients/add}">Добавить клиента</a>
+</p>
+
+<ul>
+    <li th:each="client : ${clients}">
+        <span th:text="${client.lastName}"></span>
+        <span th:text="${client.firstName}"></span>
+        <span th:if="${client.middleName}" th:text="' ' + ${client.middleName}"></span>
+
+        <span th:if="${client.dateOfBirth}">
+                (рождён: <span th:text="${#temporals.format(client.dateOfBirth, 'dd.MM.yyyy')}"></span>)
+            </span>
+
+        <a th:href="@{/clients/{id}/edit(id=${client.id})}"
+           style="margin-left: 1rem; color: #007bff; text-decoration: none;">
+            Редактировать
+        </a>
+    </li>
+</ul>
+
+<div th:if="${pagination}">
+    <span>Страница: <span th:text="${pagination.page + 1}"></span></span>
+    <span>Размер: <span th:text="${pagination.pageSize}"></span></span>
+
+    <a th:if="${pagination.page > 0}"
+       th:href="@{/clients(page=${pagination.page - 1}, pageSize=${pagination.pageSize})}">
+        <- Предыдущая
+    </a>
+
+    <a th:if="${pagination.hasNext}"
+       th:href="@{/clients(page=${pagination.page + 1}, pageSize=${pagination.pageSize})}">
+        Следующая ->;
+    </a>
+</div>
+</body>
+</html>

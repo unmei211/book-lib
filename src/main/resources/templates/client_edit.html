@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать клиента</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2rem; }
+        .form-group { margin-bottom: 1rem; }
+        label { display: inline-block; width: 150px; font-weight: bold; }
+        input[type="text"] { width: 300px; padding: 4px; }
+        .btn { margin-top: 1rem; padding: 6px 12px; background: #28a745; color: white; border: none; cursor: pointer; }
+        .btn:hover { background: #218838; }
+        .back-link { display: inline-block; margin-top: 1rem; color: #007bff; text-decoration: none; }
+        .readonly { background-color: #f0f0f0; color: #666; }
+    </style>
+</head>
+<body>
+<h1>Редактировать клиента</h1>
+<div th:replace="~{fragments/menu :: mainMenu}"></div>
+
+<form th:object="${clientView}"
+      th:action="@{/clients/{id}/edit(id=${clientView.id})}"
+      method="post">
+    <input type="hidden" name="_method" value="patch" />
+
+    <div class="form-group">
+        <label>ID:</label>
+        <input type="text" th:field="*{id}" class="readonly" readonly />
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Фамилия:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" required />
+    </div>
+
+    <div class="form-group">
+        <label for="firstName">Имя:</label>
+        <input type="text" id="firstName" th:field="*{firstName}" required />
+    </div>
+
+    <div class="form-group">
+        <label for="middleName">Отчество:</label>
+        <input type="text" id="middleName" th:field="*{middleName}" />
+    </div>
+
+    <div class="form-group">
+        <label for="dateOfBirth">Дата рождения:</label>
+        <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" />
+    </div>
+
+    <button type="submit" class="btn">Сохранить</button>
+</form>
+
+<a th:href="@{/clients}" class="back-link">← Назад к списку</a>
+</body>
+</html>

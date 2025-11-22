@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Забронировать книгу</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+        select {
+            width: 300px;
+            padding: 6px;
+        }
+        .pagination {
+            margin-top: 0.5rem;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .btn {
+            padding: 8px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<h1>Забронировать книгу</h1>
+<div th:replace="~{fragments/menu :: mainMenu}"></div>
+
+<form th:action="@{/bookings}" method="post">
+    <!-- Секция: Книги -->
+    <div class="section">
+        <h3>Выберите книгу</h3>
+        <div class="form-group">
+            <label for="bookId">Книга:</label>
+            <select id="bookId" name="bookId" required>
+                <option value="">-- Выберите книгу --</option>
+                <option th:each="book : ${books.content}"
+                        th:value="${book.id}"
+                        th:text="${book.name + ' (' + book.author.firstName + ' ' + book.author.lastName +
+                                (book.author.middleName != null ? ' ' + book.author.middleName : '') + ')'}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Пагинация для книг -->
+        <div class="pagination">
+            Страница: <span th:text="${bookPage + 1}"></span>
+            |
+            <a th:if="${bookPage > 0}"
+               th:href="@{/bookings(bookPage=${bookPage - 1}, bookSize=${bookSize}, clientPage=${clientPage}, clientSize=${clientSize})}">
+                &larr; Предыдущая
+            </a>
+            <a th:if="${books.hasNext()}"
+               th:href="@{/bookings(bookPage=${bookPage + 1}, bookSize=${bookSize}, clientPage=${clientPage}, clientSize=${clientSize})}">
+                Следующая &rarr;
+            </a>
+        </div>
+    </div>
+
+    <!-- Секция: Клиенты -->
+    <div class="section">
+        <h3>Выберите клиента</h3>
+        <div class="form-group">
+            <label for="clientId">Клиент:</label>
+            <select id="clientId" name="clientId" required>
+                <option value="">-- Выберите клиента --</option>
+                <option th:each="client : ${clients.content}"
+                        th:value="${client.id}"
+                        th:text="${client.lastName + ' ' + client.firstName +
+                                (client.middleName != null ? ' ' + client.middleName : '')}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Пагинация для клиентов -->
+        <div class="pagination">
+            Страница: <span th:text="${clientPage + 1}"></span>
+            |
+            <a th:if="${clientPage > 0}"
+               th:href="@{/bookings/book(bookPage=${bookPage}, bookSize=${bookSize}, clientPage=${clientPage - 1}, clientSize=${clientSize})}">
+                &larr; Предыдущая
+            </a>
+            <a th:if="${clients.hasNext()}"
+               th:href="@{/bookings/book(bookPage=${bookPage}, bookSize=${bookSize}, clientPage=${clientPage + 1}, clientSize=${clientSize})}">
+                Следующая &rarr;
+            </a>
+        </div>
+    </div>
+
+    <button type="submit" class="btn">Забронировать</button>
+</form>
+
+<a th:href="@{/bookings}" class="back-link">← Назад к списку бронирований</a>
+</body>
+</html>

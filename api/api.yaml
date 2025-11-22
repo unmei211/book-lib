@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Library Management API
+  version: 1.0.0
+  description: API для управления бронированиями в библиотеке
+
+servers:
+  - url: http://localhost:8080
+    description: Локальный сервер разработки
+
+paths:
+  /bookings/details:
+    get:
+      summary: Получить список бронирований с пагинацией
+      operationId: getBookingDetails
+      parameters:
+        - name: page
+          in: query
+          description: Номер страницы (начинается с 0)
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: Размер страницы (максимум 100)
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ с пагинированным списком бронирований
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingDetail'
+
+components:
+  schemas:
+    BookingDetail:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "Владислав"
+        lastName:
+          type: string
+          example: "Старовойтов"
+        middleName:
+          type: string
+          nullable: true
+          example: "Алексеевич"
+        dateOfBirth:
+          type: string
+          format: date
+          example: "2025-11-12"
+        isbnCode:
+          type: string
+          example: "978-0-1000004-4"
+        name:
+          type: string
+          example: "Книга 4"
+        author:
+          $ref: '#/components/schemas/Author'
+        bookedAt:
+          type: string
+          format: date
+          example: "2025-11-22"
+
+    Author:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "auth-4"
+        firstName:
+          type: string
+          example: "Автор"
+        lastName:
+          type: string
+          example: "Фамилия4"
+        middleName:
+          type: string
+          nullable: true
+          example: null

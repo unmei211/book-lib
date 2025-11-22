@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список книг</title>
+</head>
+<body>
+<h1>Книги</h1>
+<div th:replace="~{fragments/menu :: mainMenu}"></div>
+<p>
+    <a th:href="@{/books/add}">Добавить книгу</a>
+</p>
+<ul>
+    <li th:each="book : ${bookViews}">
+        <span th:text="${book.name}"></span> —
+        <span th:text="${book.author.fullName}"></span>
+        <a th:href="@{/books/{id}/edit(id=${book.id})}"
+           style="margin-left: 1rem; color: #007bff; text-decoration: none;">
+            Редактировать
+        </a>
+    </li>
+</ul>
+<div>
+    <span>Страница: <span th:text="${pagination.page + 1}"></span></span>
+    <span>Размер: <span th:text="${pagination.pageSize}"></span></span>
+
+    <a th:if="${pagination.page > 0}"
+       th:href="@{/books(page=${pagination.page - 1}, pageSize=${pagination.pageSize})}">
+        <- Предыдущая
+    </a>
+
+    <a th:if="${pagination.hasNext}"
+       th:href="@{/books(page=${pagination.page + 1}, pageSize=${pagination.pageSize})}">
+        Следующая ->
+    </a>
+
+</div>
+</body>
+</html>
