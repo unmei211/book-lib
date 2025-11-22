@@ -23,6 +23,7 @@ mvn package
 ### 3. Запустите, передав переменные окружения
 Ознакомьтесь с .env.template
 
+Выполните (в UNIX окружении):
 ```bash
 POSTGRES_HOST=localhost \
 POSTGRES_PORT=5432 \
